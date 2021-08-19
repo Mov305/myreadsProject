@@ -13,14 +13,14 @@ class BooksApp extends React.Component {
       searchedBooks:[],
     }  } 
   
-  componentDidMount() {
+  async componentDidMount() {
     if(this.state.books){     //to rerendring the page after a change  hanppens in the state and to invoke the filter
-      this.wantFilter()
+     this.wantFilter()
     }
   
   }
   wantFilter = ()=>{   //filtering the books and adding them to a new object to handle them then updating the state
-    BooksAPI.getAll()
+     BooksAPI.getAll()
     .then((oldbooks) => {
     const crArray=oldbooks.filter((book)=>book.shelf==="currentlyReading");
     const wtrArray=oldbooks.filter((book)=>book.shelf==="wantToRead");
@@ -41,9 +41,9 @@ class BooksApp extends React.Component {
   }
   searchHandler = (e) => {    // dealing with the search errors  
     const value = e.target.value.toLowerCase();
-      (value !== ''  ) && (
+      (value !== '') ? (
       this.searches(value)
-    )    
+    )  :setTimeout(()=>this.setState({searchedBooks:[]}),500 ) 
   }
   getByID=(shelf,book)=>{    // don't warry about the name it was a whole other funciton but i had to change it 
     BooksAPI.update(book,shelf);  //  taking the values comming from the books cards and updating the shelfs

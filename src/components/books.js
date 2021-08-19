@@ -1,9 +1,14 @@
-import React from 'react'
+import React, {useState}from 'react'
 
 const Bookslist = props => {
     const book=props.book;
     const url =(book.imageLinks)?`url(${book.imageLinks.smallThumbnail})`:('');
     const authors =(book.authors)?(book.authors.join(' & ')):('');
+    const [shelf,setShelf]=useState(book.shelf || 'none');
+    const handleShelf =(shelf)=>{
+        setShelf(shelf)
+    }
+    
     return (
         <li key={book.id}>
             <div className="book">
@@ -12,9 +17,9 @@ const Bookslist = props => {
                         width: 128, height: 193, backgroundImage:url                          
                     }}></div>
                     <div className="book-shelf-changer">
-                        <select onChange={(e) => { props.changeShelf(e.target.value, book)}}>
+                        <select onChange={(e) => { props.changeShelf(e.target.value, book);handleShelf(e.target.value)}} value= {shelf}>
                             <option value="move" >Move to...</option>
-                            <optgroup>
+                            <optgroup >
                                 <option value="currentlyReading">Currently Reading</option>
                                 <option value="wantToRead">Want to Read</option>
                                 <option value="read">Read</option>

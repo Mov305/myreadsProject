@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import Bookslist from './books';
-//import PropTypes from 'prop-types'
+
 
 const Searchbar = props => {
     const searchedBooks =props.searchedBooks;

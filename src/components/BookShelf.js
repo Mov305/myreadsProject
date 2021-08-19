@@ -1,6 +1,6 @@
 import React from 'react'
 import Bookslist from './books'
-//import PropTypes from 'prop-types'
+
 
 const BookShelf = (props) => {
     return (
