@@ -9,6 +9,7 @@ class BooksApp extends React.Component {
   constructor(props) {
     super(props);    //seting the state to the filterd books and the books found on the search
     this.state = {
+      query:"",
       books:[],
       searchedBooks:[],
       fliteredBooks:[],
@@ -44,7 +45,7 @@ class BooksApp extends React.Component {
     const value = e.target.value.toLowerCase();
       (value !== '') ? (
       this.searches(value)
-    )  :setTimeout(()=>this.setState({searchedBooks:[]}),500 ) 
+    )  :setTimeout(()=>this.setState({searchedBooks:[],query:value}),500 ) 
   }
   getByID=(shelf,book)=>{    // don't warry about the name it was a whole other funciton but i had to change it 
     BooksAPI.update(book,shelf).then(()=>this.wantFilter() )  //  taking the values comming from the books cards and updating the shelfs
@@ -56,6 +57,7 @@ class BooksApp extends React.Component {
       <div className="app">
         <Route exact path="/search" render={() => (
          <Searchbar
+         query={this.state.query}
          chosenBooks ={this.state.books}
          searchedBooks={this.state.searchedBooks}
          searchHandler={this.searchHandler}
@@ -88,6 +90,7 @@ class BooksApp extends React.Component {
             </div>
             <div className="open-search">
               <Link
+              onClick={()=>this.setState({searchedBooks:[]})}
                 to='/search'
               >Add a book</Link>
             </div>
