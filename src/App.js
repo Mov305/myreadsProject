@@ -11,6 +11,7 @@ class BooksApp extends React.Component {
     this.state = {
       books:[],
       searchedBooks:[],
+      fliteredBooks:[],
     }  } 
   
   async componentDidMount() {
@@ -27,7 +28,7 @@ class BooksApp extends React.Component {
     const rArray=oldbooks.filter((book)=>book.shelf==="read");
     const books={currentlyReading:crArray,wantToRead:wtrArray,read:rArray};
     this.setState(
-      {books:books}
+      {books:oldbooks,fliteredBooks:books}
     );
     });
   }
@@ -46,8 +47,8 @@ class BooksApp extends React.Component {
     )  :setTimeout(()=>this.setState({searchedBooks:[]}),500 ) 
   }
   getByID=(shelf,book)=>{    // don't warry about the name it was a whole other funciton but i had to change it 
-    BooksAPI.update(book,shelf);  //  taking the values comming from the books cards and updating the shelfs
-    this.wantFilter();   
+    BooksAPI.update(book,shelf).then(()=>this.wantFilter() )  //  taking the values comming from the books cards and updating the shelfs
+      
   }
 
   render() {
@@ -55,6 +56,7 @@ class BooksApp extends React.Component {
       <div className="app">
         <Route exact path="/search" render={() => (
          <Searchbar
+         chosenBooks ={this.state.books}
          searchedBooks={this.state.searchedBooks}
          searchHandler={this.searchHandler}
          changeShelf={this.getByID}
@@ -69,15 +71,15 @@ class BooksApp extends React.Component {
               
               <BookShelf 
               title={'Currently reading'} 
-               books={this.state.books.currentlyReading} 
+               books={this.state.fliteredBooks.currentlyReading} 
                changeShelf={this.getByID}/>
               <BookShelf
                title={'Want to read'}
-                 books={this.state.books.wantToRead}
+                 books={this.state.fliteredBooks.wantToRead}
                  changeShelf={this.getByID} />
               <BookShelf
                title={'Read'}
-                 books={this.state.books.read}
+                 books={this.state.fliteredBooks.read}
                  changeShelf={this.getByID}/>
 
 

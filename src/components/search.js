@@ -4,9 +4,16 @@ import Bookslist from './books';
 
 
 const Searchbar = props => {
-    const searchedBooks =props.searchedBooks;
-    const searchHandler = props.searchHandler;
-    const changeShelf =props.changeShelf;
+    const {searchedBooks,searchHandler,changeShelf,chosenBooks} =props;
+    const addShelf =(search)=>{
+        let carryShelf={};
+        chosenBooks.forEach(book => carryShelf[book.id]=book.shelf );
+        search.forEach(book =>{
+            book.shelf=carryShelf[book.id] || 'none'
+        });
+        return search
+    }
+
     return (
         <div className="search-books">
             <div className="search-books-bar">
@@ -22,7 +29,7 @@ const Searchbar = props => {
             </div>
             <div className="search-books-results">
                 <ol className="books-grid">
-                    {(searchedBooks.length > 1) && (searchedBooks.map((book) => {
+                    {(addShelf(searchedBooks).length > 1) && (addShelf(searchedBooks).map((book) => {
                         return (
                             <Bookslist 
                             key={book.id}
