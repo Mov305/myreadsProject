@@ -29,7 +29,7 @@ const Searchbar = props => {
             </div>
             <div className="search-books-results">
                 <ol className="books-grid">
-                    {(addShelf(searchedBooks).length > 1) && (addShelf(searchedBooks).map((book) => {
+                    {(searchedBooks.length > 1) && (addShelf(searchedBooks).map((book) => {
                         return (
                             <Bookslist 
                             key={book.id}
